@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Car Price Prediction</title>
+
+    <style>
+        .car-image{
+            width: 180px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+            color: #222;
+        }
+
+        .header {
+            background: #172554;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin-top: 8px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #172554;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            text-align: center;
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+        }
+
+        .result h2 {
+            margin: 0;
+            color: #047857;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="{{ url_for('static', filename='car image.png') }}"
+     class="car-image"
+     alt="Car">
+        <h1>🚗 Car Price Prediction</h1>
+        <p>Predict the selling price of a used car using Machine Learning</p>
+    </div>
+
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Enter Car Details</h2>
+
+            <form action="/predict" method="POST">
+
+                <div class="form-group">
+                    <label>Year</label>
+                    <input type="number" name="year" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Present Price (Lakhs)</label>
+                    <input type="number"
+                           step="0.01"
+                           name="present_price"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Kilometers Driven</label>
+                    <input type="number"
+                           name="kms_driven"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fuel Type</label>
+
+                    <select name="fuel_type" required>
+                        <option value="0">Petrol</option>
+                        <option value="1">Diesel</option>
+                        <option value="2">CNG</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Seller Type</label>
+
+                    <select name="seller_type" required>
+                        <option value="0">Dealer</option>
+                        <option value="1">Individual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transmission</label>
+
+                    <select name="transmission" required>
+                        <option value="0">Manual</option>
+                        <option value="1">Automatic</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Number of Previous Owners</label>
+
+                    <input type="number"
+                           name="owner"
+                           min="0"
+                           required>
+                </div>
+
+                <button type="submit">
+                    🔮 Predict Price
+                </button>
+
+            </form>
+
+            {% if prediction %}
+
+            <div class="result">
+                <h2>💰 Predicted Selling Price</h2>
+
+                <h2>₹ {{ prediction }} Lakhs</h2>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
